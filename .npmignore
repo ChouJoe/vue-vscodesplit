@@ -1,0 +1,10 @@
+build
+.vscode
+examples
+*.md
+images
+src/
+/*.js
+package.json
+.prettierrc
+.browserslistrc

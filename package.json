@@ -1,0 +1,45 @@
+{
+  "name": "vue-vscodesplit",
+  "version": "0.0.1",
+  "description": "A Vue split component similar to vscode split",
+  "main": "dist/VueSplitGrid.umd.js",
+  "browser": {
+    "./SplitGrid": "src/components/SplitGrid.vue",
+    "./SplitGridArea": "src/components/SplitGridArea.vue",
+    "./SplitGridGutter": "src/components/SplitGridGutter.vue"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve --open examples/main.js",
+    "lint": "vue-cli-service lint",
+    "prepublishOnly": "npm run build",
+    "build": "vue-cli-service build --target lib --name vue-vscodesplit ./src/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.5.0",
+    "@vue/cli-plugin-eslint": "^3.5.0",
+    "@vue/cli-service": "^3.5.0",
+    "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "sass": "^1.29.0",
+    "sass-loader": "^7.1.0",
+    "vue": "^2.6.8",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "vue",
+    "vscode",
+    "split",
+    "grid",
+    "split.js",
+    "gutter",
+    "panel"
+  ],
+  "author": "joeKepler",
+  "license": "MIT"
+}
