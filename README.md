@@ -1,4 +1,8 @@
 # **vue-vscodesplit**
+<p align="center">
+    <img src="https://github.com/ChouJoe/vue-vscodesplit/blob/master/images/vue-vscodeSplit.gif" alt="vue-vscodeSplit.gif"/>
+</p>
+
 ## *Description*
 vue-vscodesplit is a  Vue Wrapper reconstruction baseed on [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid),  vue-vscodesplit implements split function similar to VsCode editor, it uses three components `<SplitGrid>`, `<SplitGridArea>` and `<SplitGridGutter>`, same as [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid),and there is a component `<ExpandPanel>` used to implement the same shrink&expand functionality  as vscode's explorer panel
 ## Installation
