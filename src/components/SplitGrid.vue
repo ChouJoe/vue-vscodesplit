@@ -3,7 +3,11 @@
     <div 
       ref="gutters" 
       class="gutter-container">
-      <slot name="gutter" />
+      <template v-for="(gutter,index) in splitGridGutters">
+        <split-grid-gutter 
+          :key="index" 
+          :disabled="!gutter.resizeable" />
+      </template>
     </div>
     <div
       v-show="show"
@@ -17,7 +21,7 @@
 </template>
 <script>
 import SplitGrid from '@/split-grid/index.js';
-
+import SplitGridGutter from './SplitGridGutter.vue'
 import UuidMixin from '@/mixins/uuid.js';
 
 const VALID_CHILD_COMPONENTS = [
@@ -31,6 +35,7 @@ const VALID_CHILD_COMPONENTS_REGEX = new RegExp(
 
 export default {
   name: 'SplitGrid',
+  components:{SplitGridGutter},
   mixins: [UuidMixin],
   props: {
     /**
@@ -65,13 +70,13 @@ export default {
     /**
      * Split Grid properties
      */
-    minSize: {
+    initMinSize: {
       type: Number,
       default: 0
     },
-    maxSize: {
+    initMaxSize: {
       type: Number,
-      default: 0
+      default: Number.POSITIVE_INFINITY
     },
     cursor: {
       type: String,
@@ -94,6 +99,10 @@ export default {
     gutterCellSize:{
       type:Number,
       default:1
+    },
+    resizeable:{
+      type:Boolean,
+      default:true
     }
   },
   data() {
@@ -117,6 +126,7 @@ export default {
       gutterItems:null,
       viewItems:null,
       sizeValue:null,
+      splitGridGutters:[]
     };
   },
   computed:{
@@ -124,6 +134,12 @@ export default {
       return {
                 '--SplitColor':'rgba(0, 0, 0, 0.25)',         
             }
+    },
+    minSize(){
+      return this.initMinSize
+    },
+    maxSize(){
+      return this.initMaxSize
     }
   },
   watch: {
@@ -151,29 +167,35 @@ export default {
     let _this = this
     _this.sizeValue = _this.initSizeValue
     _this.validateChildComponents();
-    _this.initializeSplitGrid();
+    let childComponents = this.getRenderedChildComponents()
+    for(let i=0; i<childComponents.length-1;i++){
+      this.splitGridGutters.push(childComponents[i]&&childComponents[i].componentInstance)
+    }
+    this.$nextTick(()=>{
+          _this.initializeSplitGrid();
+          _this.$on('vsg:child.add', _this.onChildAdded);
+          _this.$on('vsg:child.remove', _this.onChildRemoved);
+          _this.$on('vsg:child.resize', _this.onChildResize);
+          _this.$on('vsg:child.show', _this.onChildShow);
+          _this.$on('vsg:child.viewOnChange',_this.onViewChanged)
+          if (_this.isSubGrid) {
+            _this.$parent.$emit('vsg:child.add', {
+              type: 'grid',
+              uuid: _this.uuid,
+              size: {
+                unit: _this.sizeUnit,
+                value: _this.sizeValue
+              }
+            });
+          }
+          else{
+            //add window resize listener for root SplitGrid 
+            window.addEventListener('resize',function(){
+              _this.splitGrid.parentResize()
+            })
+          }
+    })
 
-    _this.$on('vsg:child.add', _this.onChildAdded);
-    _this.$on('vsg:child.remove', _this.onChildRemoved);
-    _this.$on('vsg:child.resize', _this.onChildResize);
-    _this.$on('vsg:child.show', _this.onChildShow);
-    _this.$on('vsg:child.viewOnChange',_this.onViewChanged)
-    if (_this.isSubGrid) {
-      _this.$parent.$emit('vsg:child.add', {
-        type: 'grid',
-        uuid: _this.uuid,
-        size: {
-          unit: _this.sizeUnit,
-          value: _this.sizeValue
-        }
-      });
-    }
-    else{
-      //add window resize listener for root SplitGrid 
-      window.addEventListener('resize',function(){
-        _this.splitGrid.parentResize()
-      })
-    }
   },
   beforeDestroy() {
     this.splitGrid.destroy(true);

@@ -60,7 +60,10 @@ class Grid {
     }
     getParentSize(){
         const {height,width} = this.element.parentElement.parentElement.getBoundingClientRect()
-        return {height,width}
+        if(this.direction == 'row'){
+            return height;
+        }
+        return width;
     }
     getSize(){
         const {height,width} = this.element.getBoundingClientRect()
@@ -106,6 +109,9 @@ class Grid {
                 size = this.viewItems[index].componentInstance.minSize
             }
         }
+        if(size == Number.POSITIVE_INFINITY){
+            size = this.getParentSize()
+        }
         let v_size = this.getViewItemsSize()
         v_size[index] = size
         this.viewItems[index].componentInstance.sizeValue = size
@@ -118,13 +124,8 @@ class Grid {
         this.saveProportions()
     }
     parentResize(){
-        let {height,width} = this.getParentSize()
-        if(this.direction == 'row'){
-            this.relayout(height)
-        }
-        else{
-            this.relayout(width)
-        }
+        let size= this.getParentSize()
+        this.relayout(size)
         this.viewItems.forEach(v=>{
             if(v.componentInstance.$vnode.tag.endsWith('SplitGrid')){
                 v.componentInstance.splitGrid.parentResize()

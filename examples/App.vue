@@ -14,93 +14,65 @@
         @drag-end="log('drag-end', $event)"
         
       >
-        <SplitGridArea v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[0]">
-          <ExpandPanel
-            :id="splitGridOptions.leftGridOptions.splitAreaOptions[0].id" 
-            title="panel1"
-            @OnExpandChange="expandChange"
-          >
-            <template v-slot:header-append>
-              <svg 
-                style="width:16px;height:16px" 
-                viewBox="0 0 24 24">
-                <path 
-                  fill="currentColor" 
-                  d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" />
-              </svg>
+        <SplitGridArea 
+          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[0]" 
+          title="panel">
+          <template v-slot:header-append>
+            <svg 
+              style="width:16px;height:16px" 
+              viewBox="0 0 24 24">
+              <path 
+                fill="currentColor" 
+                d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z" />
+            </svg>
+          </template>
+          <template v-slot:content>
+            <template v-for="(i) in 15">
+              <div :key="i">
+                {{ `---${i}` }}
+              </div>
             </template>
-            <template v-slot:content>
-              <template v-for="(i) in 15">
-                <div :key="i">
-                  {{ `---${i}` }}
-                </div>
-              </template>
-            </template>
-          </ExpandPanel>
+          </template>
         </SplitGridArea>
-        <template v-slot:gutter>
-          <SplitGridGutter :disabled="!splitGridOptions.leftGridOptions.splitAreaOptions[0].isExpand" />
-          <SplitGridGutter :disabled="!splitGridOptions.leftGridOptions.splitAreaOptions[1].isExpand" />
-          <SplitGridGutter :disabled="!splitGridOptions.leftGridOptions.splitAreaOptions[2].isExpand" />
-        </template>
-        <SplitGridArea v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[1]">
-          <ExpandPanel 
-            :id="splitGridOptions.leftGridOptions.splitAreaOptions[1].id" 
-            title="panel2"
-            @OnExpandChange="expandChange"
-          >
-            <template v-slot:content>
-              <template v-for="(i) in 15">
-                <div :key="i">
-                  {{ `---${i}` }}
-                </div>
-              </template>
+        <SplitGridArea 
+          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[1]"  
+          title="panel2">
+          <template v-slot:content>
+            <template v-for="(i) in 15">
+              <div :key="i">
+                {{ `---${i}` }}
+              </div>
             </template>
-          </ExpandPanel>
+          </template>
         </SplitGridArea>
-        <SplitGridArea v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[2]">
-          <ExpandPanel 
-            :id="splitGridOptions.leftGridOptions.splitAreaOptions[2].id" 
-            title="panel3"
-            @OnExpandChange="expandChange"
-          >
-            <template v-slot:content>
-              <template v-for="(i) in 15">
-                <div :key="i">
-                  {{ `---${i}` }}
-                </div>
-              </template>
+        <SplitGridArea 
+          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[2]"
+          title="panel3">
+          <template v-slot:content>
+            <template v-for="(i) in 15">
+              <div :key="i">
+                {{ `---${i}` }}
+              </div>
             </template>
-          </ExpandPanel>
+          </template>
         </SplitGridArea>
-        <SplitGridArea v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[3]">
-          <ExpandPanel
-            :id="splitGridOptions.leftGridOptions.splitAreaOptions[3].id" 
-            title="panel4"
-            @OnExpandChange="expandChange"
-            
-          >
-            <template v-slot:content>
-              <template v-for="(i) in 40">
-                <div :key="i">
-                  {{ `---${i}` }}
-                </div>
-              </template>
+        <SplitGridArea 
+          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[3]"
+          title="panel4">
+          <template v-slot:content>
+            <template v-for="(i) in 40">
+              <div :key="i">
+                {{ `---${i}` }}
+              </div>
             </template>
-          </ExpandPanel>
+          </template>
         </SplitGridArea>
       </SplitGrid>
-      <template v-slot:gutter>
-        <SplitGridGutter />
-      </template>
       <SplitGrid 
         v-bind="splitGridOptions.rightGridOptions.rootGridOptions">
         <SplitGridArea v-bind="splitGridOptions.rightGridOptions.splitAreaOptions[0]">
           <div>{{ text }}</div>
         </SplitGridArea>
-        <template v-slot:gutter>
-          <SplitGridGutter />
-        </template>
         <SplitGridArea v-bind="splitGridOptions.rightGridOptions.splitAreaOptions[1]">
           <p>
             defcdx
@@ -129,22 +101,20 @@ export default {
         splitGridOptions: {
             rootGridOptions:{
                 gutterSize:5,
-                gutterCellSize:2,
                 proportionalLayout:false,
             },
             leftGridOptions:{
                 splitAreaOptions:[
-                        {'id':1,'sizeUnit':'px','initSizeValue':this.expandAreaHeadHeight,'isExpand':false,'minSize':this.expandAreaHeadHeight,'maxSize':this.expandAreaHeadHeight},
-                        {'id':2,'sizeUnit':'px','initSizeValue':this.expandAreaHeadHeight,'isExpand':false,'minSize':this.expandAreaHeadHeight,'maxSize':this.expandAreaHeadHeight},
-                        {'id':3,'sizeUnit':'px','initSizeValue':this.expandAreaHeadHeight,'isExpand':false,'minSize':this.expandAreaHeadHeight,'maxSize':this.expandAreaHeadHeight},
-                        {'id':4,'isExpand':false,'minSize':this.expandAreaHeadHeight,'maxSize':Number.POSITIVE_INFINITY}
+                        {'sizeUnit':'px','isExpand':true,'initSizeValue':200},
+                        {'sizeUnit':'px','isExpand':false,},
+                        {'sizeUnit':'px','isExpand':false,},
+                        {'isExpand':false,}
                 ],
                 rootGridOptions:{
                     initSizeValue:250,
-                    minSize:100,
-                    maxSize:500,
+                    initMinSize:100,
+                    initMaxSize:500,
                     gutterSize:5,
-                    gutterCellSize:2,
                     priority:0,
                     sizeUnit:'px',
                     direction:'row'
@@ -153,14 +123,13 @@ export default {
             },
             rightGridOptions:{
                 splitAreaOptions:[
-                    {'id':1,'sizeUnit':'px','initSizeValue':700,'minSize':100,'maxSize':Number.POSITIVE_INFINITY},
-                    {'id':2,'sizeUnit':'fr','initSizeValue':1,'minSize':100,'maxSize':Number.POSITIVE_INFINITY},
+                    {'sizeUnit':'px','initSizeValue':500,'initMinSize':100,'initMaxSize':Number.POSITIVE_INFINITY},
+                    {'sizeUnit':'fr','initSizeValue':1,'initMinSize':100,'initMaxSize':Number.POSITIVE_INFINITY},
                 ],
                 rootGridOptions:{
-                    minSize:400,
-                    maxSize:Number.POSITIVE_INFINITY,
+                    initMinSize:400,
+                    initMaxSize:Number.POSITIVE_INFINITY,
                     gutterSize:5,
-                    gutterCellSize:2,
                     priority:1,
                     direction:'row'
                 }

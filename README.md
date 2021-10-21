@@ -4,7 +4,7 @@
 </p>
 
 ## *Description*
-vue-vscodesplit is a  Vue Wrapper reconstruction baseed on [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid),  vue-vscodesplit implements split function similar to VsCode editor, it uses three components `<SplitGrid>`, `<SplitGridArea>` and `<SplitGridGutter>`, same as [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid),and there is a component `<ExpandPanel>` used to implement the same shrink&expand functionality  as vscode's explorer panel
+vue-vscodesplit is a  Vue Wrapper reconstruction baseed on [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid), there  three main components `<SplitGrid>`, `<SplitGridArea>`, `<SplitGridGutter>`, same as [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid), the difference is that `<SplitGridGutter>` will be created automatically in `<SplitGrid>` in this library, so users only need to use `<SplitGrid>`, `<SplitGridArea>` when using  vue-vscodesplit.  and vue-vscodesplit implements split function similar to VsCode editor, include  support for viewarea expandsion, spliter highlight when hovered and window resize.
 ## Installation
 ```Shell
 npm install --save vue-vscodesplit
@@ -20,24 +20,23 @@ ES6 modules, import components manually.
       <SplitGrid v-bind="splitGridOptions.leftGridOptions.rootGridOptions" >
         <SplitGridArea 
          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[0]">
-            <ExpandPanel></ExpandPanel>
+           <template v-slot:content>
+               <!-- <content> -->
+           </template>
         </SplitGridArea>
         <SplitGridArea 
          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[1]">
-            <ExpandPanel></ExpandPanel>
+            <template v-slot:content>
+               <!-- <content> -->
+           </template>
         </SplitGridArea>
         <SplitGridArea 
          v-bind="splitGridOptions.leftGridOptions.splitAreaOptions[2]">
-            <ExpandPanel></ExpandPanel>
+            <template v-slot:content>
+               <!-- <content> -->
+           </template>
         </SplitGridArea>
-        <template v-slot:gutter>
-          <SplitGridGutter />
-          <SplitGridGutter />
-        </template>
       </SplitGrid>
-      <template v-slot:gutter>
-          <SplitGridGutter />
-      </template>
       <SplitGridArea 
         v-bind="splitGridOptions.rightGridOptions.rootGridOptions">
       </SplitGridArea>
@@ -45,15 +44,13 @@ ES6 modules, import components manually.
   </div>
 </template>
 <script>
-import { SplitGrid, SplitGridArea, SplitGridGutter ,ExpandPanel} from 'vue-vscodesplit';
+import { SplitGrid, SplitGridArea} from 'vue-vscodesplit';
 
 export default {
   name: 'App',
   components: {
     SplitGrid,
-    SplitGridArea,
-    SplitGridGutter,
-    ExpandPanel
+    SplitGridArea
   },
   data:()=>({
       splitGridOptions:{
@@ -63,22 +60,21 @@ export default {
           },
           leftGridOptions:{
                 splitAreaOptions:[
-                    {'id':1,'initSizeValue':100,'isExpand':false,'minSize':50,'maxSize':120},
-                    {'id':2,'initSizeValue':100,'isExpand':false,'minSize':50,'maxSize':150},
-                    {'id':3,'isExpand':false,'minSize':50,'maxSize':Number.POSITIVE_INFINITY}
+                    {'isExpand':false,'initSizeValue':100,'initMinSize':100,'initMaxSize':Number.POSITIVE_INFINITY},
+                    {'isExpand':false,'initSizeValue':100,'initMinSize':100,'initMaxSize':Number.POSITIVE_INFINITY},
+                    {'isExpand':false,'initSizeValue':100,'initMinSize':100,'initMaxSize':Number.POSITIVE_INFINITY}
                 ],
                 rootGridOptions:{
                     initSizeValue:250,
-                    minSize:100,
-                    maxSize:500,
+                    initMinSize:100,
+                    initMaxSize:500,
                     gutterSize:5,
-                    sizeUnit:'px',
                     direction:'row'
                 }
             },
             rightGridOptions:{
-                minSize:400,
-                maxSize:Number.POSITIVE_INFINITY,
+                initMinSize:400,
+                initMaxSize:Number.POSITIVE_INFINITY,
                 gutterSize:5,
                 direction:'row'
             }
@@ -94,23 +90,24 @@ body {
 
 ```
 - Pay attention to the option of last child element in a `<SplitGrid>`,since vue-vscodesplit is based on CSS grid, the last child element we fill with the remaining size by default('1fr'),so it doesnt need to indicate the 'initSizeValue',and also , you had better to indicate the 'maxSize' to be 'Number.POSITIVE_INFINITY' of last child element.
-- props about sizevalue(maxSize,minSize,initSizeValue,etc) only support 'px' for now
+- props about sizevalue(initMaxSize,initMinSize,initSizeValue,etc) only support 'px' for now
 ## Components
 ### * SplitGrid
 The `<SplitGrid>` component is the main component for creating Split Grids. `<SplitGrid>` components may be nested.
 #### *Props*
 | name   | type  |  default| description| 
 |:----:   |:----:|  :----: |    :----:   |
-| direction |String|"cloumn"|direction of splitgrid |
-|gutterSize|Number|5|define default size of component `<SplitGridGutter>` in this split grid when `<SplitGridGutter>` is hovered or dragged by mouse, unit 'px'|
-|gutterCellSize|Number|1|define default size of component `<SplitGridGutter>` in this split grid when `<SplitGridGutter>` is deactive, unit 'px' |
+| direction |String|"cloumn"|"cloumn" or "row",direction of splitgrid |
+|gutterSize|Number|5|define default size of  `<SplitGridGutter>` when `<SplitGridGutter>` is hovered or dragged by mouse, unit 'px'|
+|gutterCellSize|Number|1|define default size of  `<SplitGridGutter>` in this split grid when `<SplitGridGutter>` is deactive, unit 'px' |
 |sizeUnit|String|'px'|only support 'px' for now|
 |initSizeValue|Number| |inital size(px) of splitgrid,only used when splitgrid is nested|
-|minSize|Number||minSize(px) of splitgrid,only used when splitgrid is nested|
-|maxSize|Number||maxSize(px) of splitgrid,only used when splitgrid is nested|
+|initMinSize|Number||minSize(px) of splitgrid,only used when splitgrid is nested|
+|initMaxSize|Number||maxSize(px) of splitgrid,only used when splitgrid is nested|
 |cursor|String| |define cursor when mouse on `<SplitGridGutter>`, default value:'row-resize' for direction of 'row','col-resize' for direction of 'cloumn  |
 |proportionalLayout|Boolean|true|Determines whether the view resize is based on the percentage occupied by each subviewArea|
 |priority|Number||0:lowPriority 1:highPriority, Determines this `<SplitGrid>` go to resize first or last when window resize event happened|
+|resizeable|Boolean|true|indicate the viewarea can be resized by dragging `<SplitGridGutter>`|
 
 #### *events*
 - dragStart
@@ -147,65 +144,52 @@ The `<SplitGrid>` component is the main component for creating Split Grids. `<Sp
     ```js
     //desc: slots for <SplitGrid> <SplitGridArea>
     ```
-- gutter
-     ```js
-    //desc: slots for <SplitGridGutter>
-    ```
 
 ### * SplitGridArea
-The `<SplitGridArea>` component should be used inside `<SplitGrid>` components, these are your columns or rows, depending on the `direction` you specified on the `<SplitGrid>`.
-
-`<SplitGridArea>` components shouldn't be used on their own.
+- The `<SplitGridArea>` component should be used inside `<SplitGrid>` components, these are your columns or rows, depending on the `direction` you specified on the `<SplitGrid>` 
+- `<SplitGridArea>` performance depend on props and slots user uesd.it perfom like a expandPanel when `title` props is used or one of the follow slots `slot<expand-icon>``slot<title>``slot<header-append>``slot<content>` are used, otherwise it perform like a common container
+- `<SplitGridArea>` components shouldn't be used on their own.
 #### *Props*
 | name   | type  |  default| description| 
 |:----:   |:----:|  :----: |    :----:   |
-|isExpand |Boolean|false|Indicates whether the content in `<SplitGridArea>` is expanded. Only used when the content supports expansion,similar to what the explorer panel implements in VsCode |
+|title|String||title of header,only used when `<SplitGridArea>` perform as expandPanel|
+|expandAreaHeadHeight|Number|32|indicate header height when `<SplitGridArea>` perform as expandPanel|
+|minExpandBodyHeight|Number|100|minimum height of body when `<SplitGridArea>` is expand as a expandPanel|
+|isExpand |Boolean|false|Indicates whether the  `<SplitGridArea>` is expanded. Only used when the `<SplitGridArea>` perform as expandPanel,similar to what the explorer panel implements in VsCode |
 |sizeUnit|String|'px'|only support 'px' for now|
-|initSizeValue|Number| |inital size(px) of splitgrid|
-|minSize|Number||minSize(px) of splitgrid|
-|maxSize|Number||maxSize(px) of splitgrid|
+|initSizeValue|Number| |inital size(px) of splitgrid,only meaningful when `<SplitGridArea>`  perform as common container|
+|initMinSize|Number||init minSize(px) of `<SplitGridArea>`|
+|initMaxSize|Number||init maxSize(px) of `<SplitGridArea>`|
 |priority|Number||0:lowPriority 1:highPriority, Determines this `<SplitGridArea>`  go to resize first or last when window resize event happened|
-
-### * SplitGridGutter
-`<SplitGridGutter>` should be used inside `<SplitGrid>` components, these are your column or row gutters, depending on the `direction` you specified on the `<SplitGrid>`.
-
-`<SplitGridGutter>` components shouldn't be used on their own.
-#### *Props*
-| name   | type  |  default| description| 
-|:----:   |:----:|  :----: |    :----:   |
-|disabled |Boolean|false|disabled drag|
-|size|Number||size of `<SplitGridGutter>`,default value based on prop "gutterSize" in `<SplitGrid>` |
-### * ExpandPanel
-`<ExpandPanel>` implement a 'shrink&expand' panel,which is similar to explorer panel of VSCODE,This component is separated from vue-vscodesplit , allowing vue-vscodesplit to implement pure layout functions, and the component can be used independently without vue-vscodesplit
-#### *Props*
-| name   | type  |  default| description| 
-|:----:   |:----:|  :----: |    :----:   |
-|id |[Number,Stirng]||must be gived and unqiue|
-|title|String|| define title in header-panel |
-#### *events*
-- OnExpandChange
+#### *slots*
+##### `<SplitGridArea>`  perform as common container
+- default
     ```js
-    //param
-    event:{
-        id// id,
-        expand//boolean,
-        bodyHeight//height of content-panel when panel is expaned,which is used to determine the minSize&maxSize props in `<SplitGrid>` and `<SplitGridArea>`
-        }
+    //desc:when default slot is used, `<SplitGridArea>` perform as common container
     ```
-#### *Slots*
-- expand-icon
+##### `<SplitGridArea>`  perform as expandPanel
+- title
     ```js
-    //desc: slots for expand icon in header-panel
-    ```
-- expand-title
-     ```js
-    //desc: slots for title  in header-panel
+    //desc: header title
     ```
 - header-append
     ```js
-    //desc: slots for append icon in header-panel
+    //desc: slot for apeend icons for header
+    ```
+- expand-icon
+    ```js
+    //desc:slot for expansion icon for header
     ```
 - content
     ```js
-    //desc: slots for content body when panel expaned
+    //desc: slot for expand body content
+    ```
+### *events*
+- OnExpandChange
+    ```js
+    //desc: expand change event
+    //props:
+    {
+        expand:boolean
+    }
     ```

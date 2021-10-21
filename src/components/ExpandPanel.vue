@@ -46,12 +46,7 @@ export default {
         title:{
             type:String,
             default:''
-        },
-        id:{
-            type:[Number,String],
-            require:true,
-            default:()=>(Math.random()*100)
-        },
+        }
     },
     data:()=>({
         isExpand:false
@@ -66,13 +61,16 @@ export default {
     },
     methods: {
        expandChange(){
-           this.isExpand = !this.isExpand;
+         this.isExpand = !this.isExpand;
+       },
+       expand(){
+         this.isExpand = true;
        },
        enter(el){
-           this.$emit('OnExpandChange',{id:this.id, expand:true, bodyHeight:el.scrollHeight})
+           this.$emit('OnExpandChange',{expand:true, bodyHeight:el.scrollHeight})
        },
        afterLeave(el){
-           this.$emit('OnExpandChange',{id:this.id, expand:false, bodyHeight:el.scrollHeight})
+           this.$emit('OnExpandChange',{ expand:false, bodyHeight:el.scrollHeight})
        }
     },
 }
