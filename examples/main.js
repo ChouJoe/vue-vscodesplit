@@ -1,10 +1,10 @@
 import Vue from 'vue';
-import VueSplitGrid from '../src';
+import VueVscodeSplit from '../src';
 import App from './App.vue';
 
 Vue.config.productionTip = false;
 
-Vue.use(VueSplitGrid);
+Vue.use(VueVscodeSplit);
 
 new Vue({
   render: h => h(App)

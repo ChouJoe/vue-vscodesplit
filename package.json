@@ -1,8 +1,8 @@
 {
   "name": "vue-vscodesplit",
-  "version": "0.0.1",
+  "version": "0.1.4",
   "description": "A Vue split component similar to vscode split",
-  "main": "dist/VueSplitGrid.umd.js",
+  "main": "dist/vue-vscodesplit.umd.js",
   "browser": {
     "./SplitGrid": "src/components/SplitGrid.vue",
     "./SplitGridArea": "src/components/SplitGridArea.vue",
@@ -29,7 +29,8 @@
     "vue-template-compiler": "^2.5.21"
   },
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url":"https://github.com/ChouJoe/vue-vscodesplit"
   },
   "keywords": [
     "vue",

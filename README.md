@@ -2,9 +2,25 @@
 <p align="center">
     <img src="https://github.com/ChouJoe/vue-vscodesplit/blob/master/images/vue-vscodeSplit.gif" alt="vue-vscodeSplit.gif"/>
 </p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/vue-vscodesplit">
+    <img src="https://img.shields.io/npm/v/vue-vscodesplit.svg" alt="Version"/>
+  </a>
+  <a href="https://www.npmjs.com/package/vue-vscodesplit">
+    <img src="https://img.shields.io/npm/dt/vue-vscodesplit.svg" alt="Downloads"/>
+  </a>
+  <a href="https://www.npmjs.com/package/vue-vscodesplit">
+    <img src="https://img.shields.io/npm/l/vue-vscodesplit.svg" alt="License"/>
+  </a>
+</p>
 
 ## *Description*
 vue-vscodesplit is a  Vue Wrapper reconstruction baseed on [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid), there  three main components `<SplitGrid>`, `<SplitGridArea>`, `<SplitGridGutter>`, same as [Vue Split Grid](https://github.com/stijlbreuk/vue-split-grid), the difference is that `<SplitGridGutter>` will be created automatically in `<SplitGrid>` in this library, so users only need to use `<SplitGrid>`, `<SplitGridArea>` when using  vue-vscodesplit.  and vue-vscodesplit implements split function similar to VsCode editor, include  support for viewarea expandsion, spliter highlight when hovered and window resize.
+## DEMO
+<a href="https://codesandbox.io/s/clever-pasteur-godp5?file=/src/App.vue">
+  <img alt="Edit Vue Split Grid basic example" src="https://codesandbox.io/static/img/play-codesandbox.svg">
+</a>
+
 ## Installation
 ```Shell
 npm install --save vue-vscodesplit
